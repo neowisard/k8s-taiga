@@ -1,11 +1,11 @@
 
-# k8s-taiga , kubernetes taiga deploy for GITLAB -CI and GITLAB regisrtry
+## k8s-taiga , kubernetes taiga deploy for GITLAB -CI and GITLAB regisrtry
 This code build and push containers to your regstry.
 It enables Google OAUTH2 login, or Gitlab OAUTH2, or public register with limited domains.
 
 Next step - use Helm to deploy this to your K8S.
 
-#make it in helm
+## Make it in helm
 helm install --dry-run --debug
  
  
@@ -13,7 +13,7 @@ A helm chart to deploy taiga with gitlab-ci.
 Works in conjunction with the taiga-container-build
 project (which provides the containers).
 
-#params
+## Params
 
 Make your changes  -
 

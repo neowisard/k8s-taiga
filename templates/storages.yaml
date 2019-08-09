@@ -1,0 +1,146 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: taigad-b1-ssd1
+  annotations:
+  labels:
+    disk: taiga-db
+spec:
+  capacity:
+    storage: 15Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: fast-disks
+  local:
+    path: /data/ssd1/taigadb
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - base01
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pv-taiga-db
+  namespace: default
+  annotations:
+  labels:
+    disk: taiga-db
+spec:
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - base01
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 15Gi
+  storageClassName: fast-disks
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: taigav-b2-ssd2
+  annotations:
+  labels:
+    disk: taiga-data
+spec:
+  capacity:
+    storage: 15Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: fast-disks
+  local:
+    path: /data/ssd2/taiga_vol
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - base02
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pv-taiga-volume
+  namespace: default
+  annotations:
+  labels:
+    disk: taiga-data
+spec:
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - base02
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 15Gi
+  storageClassName: fast-disks
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: taigab-b2-ssd2
+  annotations:
+  labels:
+    disk: taiga-backup
+spec:
+  capacity:
+    storage: 15Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: fast-disks
+  local:
+    path: /data/ssd2/taiga_back
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - base02
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pv-taiga-backup
+  namespace: default
+  annotations:
+  labels:
+    disk: taiga-backup
+spec:
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - base02
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 15Gi
+  storageClassName: fast-disks
