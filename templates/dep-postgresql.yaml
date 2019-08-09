@@ -17,6 +17,14 @@ spec:
       labels:
         app: {{ .Release.Name }}-postgresql
     spec:
+      nodeAffinity:
+        required:
+          nodeSelectorTerms:
+              - matchExpressions:
+                - key: kubernetes.io/hostname
+                  operator: In
+                  values:
+                    - base01
       containers:
         - name: {{ .Release.Name }}-postgresql
           image: launcher.gcr.io/google/postgresql10
@@ -31,24 +39,4 @@ spec:
       volumes:
         - name: taiga-postgresql-data
           persistentVolumeClaim:
-{{ if .Values.taiga_db_claim }}
-            claimName: {{ .Values.taiga_db_claim }}
-{{ else }}
-            claimName: pv-taiga-postgresql
-
----
-#"helm.sh/resource-policy": keep
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
-  name: pv-taiga-postgresql
-  annotations:
-    volume.alpha.kubernetes.io/storage-class: default
-    #helm.sh/resource-policy: keep
-spec:
-  accessModes: [ReadWriteOnce]
-  resources:
-    requests:
-      storage: 5Gi
-
-{{ end }}
+            claimName: pv-taiga-db

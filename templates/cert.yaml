@@ -6,14 +6,14 @@ spec:
   secretName: {{ .Values.TAIGA_HOSTNAME }}-tls
   issuerRef:
     name: letsencrypt-prod
-    kind: ClusterIssuer
+    kind: Issuer
   commonName: {{ .Values.TAIGA_HOSTNAME }}
   dnsNames:
   - {{ .Values.TAIGA_HOSTNAME }}
   acme:
     config:
     - http01:
-        ingress: {{ .Release.Name }}-taiga
+        ingressClass: traefik
       domains:
       - {{ .Values.TAIGA_HOSTNAME }}
 

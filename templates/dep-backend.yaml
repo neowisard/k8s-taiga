@@ -16,9 +16,16 @@ spec:
       labels:
         app: {{ .Release.Name }}-backend
     spec:
+      nodeAffinity:
+        required:
+          nodeSelectorTerms:
+              - matchExpressions:
+                - key: kubernetes.io/hostname
+                  operator: In
+                  values:
+                    - base02
       imagePullSecrets:
-        - name: regcred
-
+        - name: gitlab-registry
       initContainers:
         - name: init-backend
           image: gcr.io/google-containers/busybox
@@ -33,7 +40,7 @@ spec:
             runAsUser: 0
       containers:
         - name: backend
-          image: cr.agilicus.com/corp-tools/taiga-container-build/taiga_backend
+          image: gitlab.iteco.mobi:4567/des/k8s-taiga/taiga_backend
           imagePullPolicy: Always
           command: ['/scripts/entrypoint.sh']
           args: ['gunicorn', '-b', '0.0.0.0:8000', '--access-logfile', '-', '--access-logfile', '-', 'taiga.wsgi']
@@ -68,53 +75,12 @@ spec:
             - name: taiga-backup
               mountPath: /var/backups/taiga
               subPath: taiga
+          imagePullSecrets:
+            - name: gitlab-registry
       volumes:
         - name: taiga-backup
           persistentVolumeClaim:
-{{ if .Values.taiga_backup_claim }}
-            claimName: {{ .Values.taiga_backup_claim }}
-{{ else }}
             claimName: pv-taiga-backup
-{{ end }}
-
         - name: taiga-backend-media
           persistentVolumeClaim:
-{{ if .Values.taiga_volume_claim }}
-            claimName: {{ .Values.taiga_volume_claim }}
-{{ else }}
-            claimName: pv-taiga-backend
-{{ end }}
-
-{{ if .Values.taiga_volume_claim }}
-{{ else }}
----
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
-  name: pv-taiga-backend
-  annotations:
-    volume.alpha.kubernetes.io/storage-class: default
-    #helm.sh/resource-policy: keep
-spec:
-  accessModes: [ReadWriteOnce]
-  resources:
-    requests:
-      storage: 5Gi
-{{ end }}
-
-{{ if .Values.taiga_backup_claim }}
-{{ else }}
----
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
-  name: pv-taiga-backup
-  annotations:
-    volume.alpha.kubernetes.io/storage-class: default
-    #helm.sh/resource-policy: keep
-spec:
-  accessModes: [ReadWriteOnce]
-  resources:
-    requests:
-      storage: 5Gi
-{{ end }}
+            claimName: pv-taiga-volume

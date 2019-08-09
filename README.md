@@ -1,10 +1,27 @@
-# k8s-taiga
 
-A helm chart to deploy taiga.
+# k8s-taiga , kubernetes taiga deploy for GITLAB -CI and GITLAB regisrtry
+This code build and push containers to your regstry.
+It enables Google OAUTH2 login, or Gitlab OAUTH2, or public register with limited domains.
+
+Next step - use Helm to deploy this to your K8S.
+
+#make it in helm
+helm install --dry-run --debug
+ 
+ 
+A helm chart to deploy taiga with gitlab-ci.
 Works in conjunction with the taiga-container-build
 project (which provides the containers).
 
-It enables Google OAUTH2 login
+#params
+
+Make your changes  -
+
+/frontend/scripts/entrypoint.sh
+
+/values.yaml
+
+/.gitlab-ci.yml
 
 ## Usage
 
@@ -13,6 +30,7 @@ in the values (including getting your credentials
 from your google [console](https://console.developers.google.com/apis/credentials)
 
 ## Persistent Storage
+You can use ot /templates/storages.yaml  (some hardcode i think))
 
 By default this uses the auto-provisioner to create three persistent
 volumes (1 for postgresql, 1 for the git repo, 1 for backup).  This means
@@ -25,6 +43,7 @@ taiga_db_claim: pv-taiga-db-claim
 taiga_volume_claim: pv-taiga-volume-claim
 taiga_backup_claim: pv-taiga-backup-claim
 ```
+
 
 And you may wish to create them as:
 
@@ -83,3 +102,5 @@ EOF
 
 This is all licensed under Apache 2.0
 [license](https://www.apache.org/licenses/LICENSE-2.0).
+
+[THX to Don Bowman ](https://github.com/donbowman/k8s-taiga)

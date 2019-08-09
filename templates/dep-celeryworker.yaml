@@ -17,10 +17,10 @@ spec:
         app: {{ .Release.Name }}-celeryworker
     spec:
       imagePullSecrets:
-        - name: regcred
+        - name: gitlab-registry
       containers:
         - name: celeryworker
-          image: cr.agilicus.com/corp-tools/taiga-container-build/taiga_celeryworker
+          image: gitlab.iteco.mobi:4567/des/k8s-taiga/taiga_celeryworker
           imagePullPolicy: Always
           entrypoint: []
           command: ['celery', '-A', 'taiga', 'worker', '-P', 'gevent', '-c', '4', '--loglevel', 'info']
@@ -40,3 +40,5 @@ spec:
             value: {{ .Release.Name }}-postgresql
           - name: TAIGA_BACKUP_DIR
             value: ""
+          imagePullSecrets:
+            - name: gitlab-registry

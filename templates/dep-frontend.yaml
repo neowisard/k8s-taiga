@@ -16,11 +16,19 @@ spec:
       labels:
         app: {{ .Release.Name }}-frontend
     spec:
+      nodeAffinity:
+        required:
+          nodeSelectorTerms:
+              - matchExpressions:
+                - key: kubernetes.io/hostname
+                  operator: In
+                  values:
+                    - base02
       imagePullSecrets:
-        - name: regcred
+        - name: gitlab-registry
       containers:
         - name: frontend
-          image: cr.agilicus.com/corp-tools/taiga-container-build/taiga_frontend
+          image: gitlab.iteco.mobi:4567/des/k8s-taiga/taiga_frontend
           imagePullPolicy: Always
           envFrom:
             - configMapRef:
@@ -50,11 +58,9 @@ spec:
             - name: taiga-backend-media
               mountPath: /taiga_backend/media
               readOnly: true
+          imagePullSecrets:
+            - name: gitlab-registry
       volumes:
         - name: taiga-backend-media
           persistentVolumeClaim:
-{{ if .Values.taiga_volume_claim }}
-            claimName: {{ .Values.taiga_volume_claim }}
-{{ else }}
-            claimName: pv-taiga-backend
-{{ end }}
+            claimName: pv-taiga-volume
