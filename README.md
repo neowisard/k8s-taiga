@@ -13,6 +13,8 @@ A helm chart to deploy taiga with gitlab-ci.
 Works in conjunction with the taiga-container-build
 project (which provides the containers).
 
+Use images in the chart from your registry.
+
 ## Params
 
 Make your changes  -
@@ -23,10 +25,7 @@ Make your changes  -
 
 /.gitlab-ci.yml
 
-## Usage
-
-Copy values.yml.sample to values.yml. Fill
-in the values (including getting your credentials
+Fill in the values (including getting your credentials
 from your google [console](https://console.developers.google.com/apis/credentials)
 
 ## Persistent Storage
