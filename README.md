@@ -14,7 +14,8 @@ Works in conjunction with the taiga-container-build
 project (which provides the containers).
 
 Use images in the chart from your registry.
-
+And i am use traefik as ingress in  /templates/ingress.yaml
+(you can just delete annotation with traefik)
 ## Params
 
 Make your changes  -
