@@ -20,7 +20,7 @@ spec:
         - name: gitlab-registry
       containers:
         - name: events
-          image: gitlab.iteco.mobi:4567/des/k8s-taiga/taiga_events
+          image: PUT YOUR REGISTRY HERE/k8s-taiga/taiga_events
           imagePullPolicy: Always
           envFrom:
             - configMapRef:

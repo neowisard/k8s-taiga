@@ -28,7 +28,7 @@ spec:
         - name: gitlab-registry
       containers:
         - name: frontend
-          image: gitlab.iteco.mobi:4567/des/k8s-taiga/taiga_frontend
+          image: PUT YOUR REGISTRY HERE/k8s-taiga/taiga_frontend
           imagePullPolicy: Always
           envFrom:
             - configMapRef:
