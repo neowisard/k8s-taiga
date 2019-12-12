@@ -1,5 +1,5 @@
 #image: cr.agilicus.com/corp-tools/docker-compose
-image: tmaier/docker-compose:latest
+image: docker-compose:latest
 
 variables:
   DOCKER_DRIVER: overlay2
